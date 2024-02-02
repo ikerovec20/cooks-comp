@@ -4,7 +4,8 @@ import cors from 'cors';
 import path from 'path';
 import http from 'http';
 import mongoose from 'mongoose';
-import AuthRouter from './routes/auth.js';
+import AuthRouter from './routes/auth_route.js';
+import IngredientRouter from './routes/ingredients_route.js';
 dotenv.config();
 
 const app = express();
@@ -16,7 +17,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 8000;
 
 app.use("/api", AuthRouter);
-
+app.use("/api/ingredients", IngredientRouter);
 
 
 app.get('/', (req, res) => {

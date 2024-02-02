@@ -8,7 +8,13 @@ const RecipeSchema = new Schema({
     comments: [{type: Schema.Types.ObjectId, ref: "Comment"}],
     saves: [{type: Schema.Types.ObjectId, ref: "User"}],
     owner_id: {type: Schema.Types.ObjectId, ref: "User"},
-    ingredients: [{type: Schema.Types.ObjectId, ref: "Ingredient"}]
+    ingredients: [
+        {
+            ingredient_id: {type: Schema.Types.ObjectId, ref: "Ingredient"},
+            amount: {type: Number},
+            unit: {type: String}
+        },
+    ]
 })
 
 export const Recipes = mongoose.model("Recipe", RecipeSchema);
