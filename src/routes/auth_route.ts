@@ -5,7 +5,11 @@ const router = Router();
 
 router.post("/login", async (req, res) => {
     try {
-        const {username, password} = req.body;
+        const username = req.body.username;
+        const password = req.body.password;
+        console.log(req.body);
+        console.log(username);
+        console.log(password);
         if (!(username || password)) {
             throw {status: 400, message: "Both fields are required."};
         }

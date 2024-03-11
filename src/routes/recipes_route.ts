@@ -2,6 +2,7 @@ import { Request, Router, NextFunction } from "express";
 import { Recipes } from "../db/schemas/recipe.js";
 import { Comments } from "../db/schemas/comment.js";
 import { Ingredients } from "../db/schemas/ingredient.js";
+import mongoose from 'mongoose';
 
 const router = Router();
 export default router;
@@ -51,12 +52,15 @@ router.post("/", async (req, res) => {
 
 router.post("/save", async (req, res) => {
     try {
-        const {user_id, recipe_id} = req.body;
-
+        const user_id = req.body.user_id;
+        const recipe_id = req.body.recipe_id;
+        console.log(user_id);
+        console.log(recipe_id);
         if (!(user_id && recipe_id)) {
             res.status(400).send("Must provide both arguments");
+            return;
         }
-        const recipe = await Recipes.findById({recipe_id});
+        const recipe = await Recipes.findById(recipe_id);
 
         if (recipe == null) {
             res.status(404).send("Recipe not found");
@@ -64,10 +68,11 @@ router.post("/save", async (req, res) => {
         }
         if (recipe.saves.includes(user_id)) {
             res.status(400).send("Already saved");
+            return;
         }
         recipe.saves.push(user_id);
-        // await recipe.save({});
-        await Recipes.updateOne({recipe});
+        await recipe.save();
+        // await Recipes.updateOne({recipe});
         res.status(200).send("Success");
     }
     catch (err) {

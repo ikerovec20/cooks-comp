@@ -12,8 +12,15 @@ import App from './App.vue'
 
 // Composables
 import { createApp } from 'vue'
+import { createVuetify } from 'vuetify/lib/framework.mjs'
 
-const app = createApp(App)
+const vuetify = createVuetify({
+    theme: {
+        defaultTheme: 'light'
+    },
+})
+
+const app = createApp(App).use(vuetify);
 
 registerPlugins(app)
 
